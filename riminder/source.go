@@ -16,11 +16,11 @@ func newSource(riminder *Riminder) *source {
 func (s *source) List() ([]response.SourceListElem, error) {
 
 	resp := response.SourceListContainer{}
-	tmpResp, err := s.client.Get("sources", map[string]string{}, resp)
-	if tmpResp == nil || err != nil {
+	err := s.client.Get("sources", map[string]string{}, &resp)
+	if err != nil {
 		return nil, err
 	}
-	return tmpResp.(*response.SourceListContainer).Data, nil
+	return resp.Data, nil
 }
 
 func (s *source) Get(options map[string]interface{}) (response.SourceGetElem, error) {
@@ -30,9 +30,9 @@ func (s *source) Get(options map[string]interface{}) (response.SourceGetElem, er
 	}
 
 	resp := response.SourceGetContainer{}
-	tmpResp, err := s.client.Get("source", query, resp)
-	if tmpResp == nil || err != nil {
+	err := s.client.Get("source", query, &resp)
+	if err != nil {
 		return response.SourceGetElem{}, err
 	}
-	return tmpResp.(*response.SourceGetContainer).Data, nil
+	return resp.Data, nil
 }

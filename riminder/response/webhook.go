@@ -3,7 +3,7 @@ package response
 type WebhookCheckContainer struct {
 	*ResponseContainer
 
-	Data []WebhookCheckElem
+	Data WebhookCheckElem
 }
 
 type WebhookCheckElem struct {

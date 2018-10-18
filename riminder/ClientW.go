@@ -2,7 +2,6 @@ package riminder
 
 import (
 	"encoding/json"
-	"reflect"
 
 	"github.com/Xalrandion/go-riminder-api/riminder/errors"
 	"gopkg.in/resty.v1"
@@ -33,24 +32,48 @@ func (c *clientw) SetBaseURL(url string) {
 	c.client.SetHostURL(c.baseURL)
 }
 
-func responseProcesser(resp *resty.Response, respContainer interface{}) (interface{}, error) {
+func responseProcesser(resp *resty.Response, respContainer interface{}) error {
 	if !resp.IsSuccess() {
-		return nil, errors.NewResponseError(resp.StatusCode(), resp.Status(), resp.String())
+		return errors.NewResponseError(resp.StatusCode(), resp.Status(), resp.String())
 	}
-	respFinal := reflect.New(reflect.TypeOf(respContainer)).Interface()
-	err := json.Unmarshal(resp.Body(), &respFinal)
+	err := json.Unmarshal(resp.Body(), respContainer)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return respFinal, nil
+	return nil
 }
 
-func (c *clientw) Get(endpoint string, queryParams map[string]string, respContainer interface{}) (interface{}, error) {
+func (c *clientw) Get(endpoint string, queryParams map[string]string, respContainer interface{}) error {
 
 	resp, err := c.client.R().SetQueryParams(queryParams).Get(endpoint)
 	if err != nil {
-		return nil, err
+		return err
+	}
+	return responseProcesser(resp, respContainer)
+}
+
+func (c *clientw) Post(endpoint string, bodyParams map[string]interface{}, respContainer interface{}) error {
+	resp, err := c.client.R().SetBody(bodyParams).Post(endpoint)
+	if err != nil {
+		return err
+	}
+	return responseProcesser(resp, respContainer)
+}
+
+func (c *clientw) PostFile(endpoint, filepath string, multipartFields map[string]string, respContainer interface{}) error {
+	fileMap := map[string]string{"file": filepath}
+	resp, err := c.client.R().SetFiles(fileMap).SetFormData(multipartFields).Post(endpoint)
+	if err != nil {
+		return err
+	}
+	return responseProcesser(resp, respContainer)
+}
+
+func (c *clientw) Patch(endpoint string, bodyParams map[string]interface{}, respContainer interface{}) error {
+	resp, err := c.client.R().SetBody(bodyParams).Patch(endpoint)
+	if err != nil {
+		return err
 	}
 	return responseProcesser(resp, respContainer)
 }

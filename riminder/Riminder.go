@@ -8,6 +8,9 @@ type Riminder struct {
 	baseURL    string
 	clientw    *clientw
 	source     *source
+	filter     *filter
+	profile    *profile
+	webhooks   *webhooks
 }
 
 func New(apiKey string) *Riminder {
@@ -19,6 +22,9 @@ func New(apiKey string) *Riminder {
 	r.clientw = newClientw(r.apiKey, r.baseURL)
 
 	r.source = newSource(r)
+	r.filter = newfilter(r)
+	r.profile = newprofile(r)
+	r.webhooks = newWebhooks(r)
 	return r
 }
 
@@ -33,4 +39,16 @@ func (r *Riminder) SetWebhookKey(wkey string) {
 
 func (r *Riminder) Source() *source {
 	return r.source
+}
+
+func (r *Riminder) Filter() *filter {
+	return r.filter
+}
+
+func (r *Riminder) Profile() *profile {
+	return r.profile
+}
+
+func (r *Riminder) Webhooks() *webhooks {
+	return r.webhooks
 }

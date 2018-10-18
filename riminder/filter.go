@@ -16,11 +16,11 @@ func newfilter(riminder *Riminder) *filter {
 func (s *filter) List() ([]response.FilterListElem, error) {
 
 	resp := response.FilterListContainer{}
-	tmpResp, err := s.client.Get("filters", map[string]string{}, resp)
-	if tmpResp == nil || err != nil {
+	err := s.client.Get("filters", map[string]string{}, &resp)
+	if err != nil {
 		return nil, err
 	}
-	return tmpResp.(*response.FilterListContainer).Data, nil
+	return resp.Data, nil
 }
 
 func (s *filter) Get(options map[string]interface{}) (response.FilterGetElem, error) {
@@ -30,9 +30,9 @@ func (s *filter) Get(options map[string]interface{}) (response.FilterGetElem, er
 	AddIfNotEmptyStrMap(&query, options, "filter_reference")
 
 	resp := response.FilterGetContainer{}
-	tmpResp, err := s.client.Get("filter", query, resp)
-	if tmpResp == nil || err != nil {
+	err := s.client.Get("filter", query, &resp)
+	if err != nil {
 		return response.FilterGetElem{}, err
 	}
-	return tmpResp.(*response.FilterGetContainer).Data, nil
+	return resp.Data, nil
 }

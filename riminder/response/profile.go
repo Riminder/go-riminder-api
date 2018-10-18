@@ -1,7 +1,5 @@
 package response
 
-import "time"
-
 type ProfileListContainer struct {
 	*ResponseContainer
 
@@ -13,13 +11,13 @@ type ProfileListElem struct {
 	MaxPage       int `json:"maxPage"`
 	CountProfiles int `json:"count_profiles"`
 	Profiles      []struct {
-		ProfileID        string    `json:"profile_id"`
-		ProfileReference string    `json:"profile_reference"`
-		Name             string    `json:"name"`
-		Email            string    `json:"email"`
-		Seniority        string    `json:"seniority"`
-		DateReception    time.Time `json:"date_reception"`
-		DateCreation     time.Time `json:"date_creation"`
+		ProfileID        string   `json:"profile_id"`
+		ProfileReference string   `json:"profile_reference"`
+		Name             string   `json:"name"`
+		Email            string   `json:"email"`
+		Seniority        string   `json:"seniority"`
+		DateReception    DateTime `json:"date_reception"`
+		DateCreation     DateTime `json:"date_creation"`
 		Source           struct {
 			SourceID string `json:"source_id"`
 			Name     string `json:"name"`
@@ -38,12 +36,12 @@ type ProfileAddContainer struct {
 }
 
 type ProfileAddElem struct {
-	ProfileReference string    `json:"profile_reference"`
-	FileID           string    `json:"file_id"`
-	FileName         string    `json:"file_name"`
-	FileSize         string    `json:"file_size"`
-	Extension        string    `json:"extension"`
-	DateReception    time.Time `json:"date_reception"`
+	ProfileReference string   `json:"profile_reference"`
+	FileID           string   `json:"file_id"`
+	FileName         string   `json:"file_name"`
+	FileSize         string   `json:"file_size"`
+	Extension        string   `json:"extension"`
+	DateReception    DateTime `json:"date_reception"`
 }
 
 type LocDetails struct {
@@ -127,15 +125,15 @@ type ProfileGetContainer struct {
 }
 
 type ProfileGetElem struct {
-	ProfileID        string    `json:"profile_id"`
-	ProfileReference string    `json:"profile_reference"`
-	Name             string    `json:"name"`
-	Email            string    `json:"email"`
-	Phone            string    `json:"phone"`
-	Address          string    `json:"address"`
-	DateReception    time.Time `json:"date_reception"`
-	DateCreation     time.Time `json:"date_creation"`
-	SourceID         string    `json:"source_id"`
+	ProfileID        string   `json:"profile_id"`
+	ProfileReference string   `json:"profile_reference"`
+	Name             string   `json:"name"`
+	Email            string   `json:"email"`
+	Phone            string   `json:"phone"`
+	Address          string   `json:"address"`
+	DateReception    DateTime `json:"date_reception"`
+	DateCreation     DateTime `json:"date_creation"`
+	SourceID         string   `json:"source_id"`
 }
 
 type ProfileDocumentsListContainer struct {
@@ -167,24 +165,24 @@ type ProfileParsingGetElem struct {
 	Languages   []string `json:"languages"`
 	Seniority   string   `json:"seniority"`
 	Experiences []struct {
-		Title       string    `json:"title"`
-		Description string    `json:"description"`
-		Company     string    `json:"company"`
-		Location    string    `json:"location"`
-		StartDate   time.Time `json:"start_date"`
-		EndDate     time.Time `json:"end_date"`
+		Title       string   `json:"title"`
+		Description string   `json:"description"`
+		Company     string   `json:"company"`
+		Location    string   `json:"location"`
+		StartDate   DateTime `json:"start_date"`
+		EndDate     DateTime `json:"end_date"`
 	} `json:"experiences"`
 	Educations []struct {
-		Title       string    `json:"title"`
-		Description string    `json:"description"`
-		School      string    `json:"school"`
-		Location    string    `json:"location"`
-		StartDate   time.Time `json:"start_date"`
-		EndDate     time.Time `json:"end_date"`
+		Title       string   `json:"title"`
+		Description string   `json:"description"`
+		School      string   `json:"school"`
+		Location    string   `json:"location"`
+		StartDate   DateTime `json:"start_date"`
+		EndDate     DateTime `json:"end_date"`
 	} `json:"educations"`
-	DateReception time.Time `json:"date_reception"`
-	DateCreation  time.Time `json:"date_creation"`
-	SourceID      string    `json:"source_id"`
+	DateReception DateTime `json:"date_reception"`
+	DateCreation  DateTime `json:"date_creation"`
+	SourceID      string   `json:"source_id"`
 }
 
 type ProfileScoringListContainer struct {
