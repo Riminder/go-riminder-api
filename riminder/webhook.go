@@ -64,6 +64,7 @@ type webhookHandlerContainer struct {
 	factory  webhookMessageparser
 }
 
+// webhooks class contains methods to interact with the webhooks on riminder's api.
 type webhooks struct {
 	client     *clientw
 	webhookKey string
@@ -150,6 +151,7 @@ func newWebhooks(riminder *Riminder) *webhooks {
 	return s
 }
 
+// Check checks if the webhook integration is enabled.
 func (w *webhooks) Check() (response.WebhookCheckElem, error) {
 
 	resp := response.WebhookCheckContainer{}
@@ -160,6 +162,7 @@ func (w *webhooks) Check() (response.WebhookCheckElem, error) {
 	return resp.Data, nil
 }
 
+// SetHandler adds an handler for the specified event.
 func (w *webhooks) SetHandler(eventName string, callback WebhookCallback) error {
 	if _, ok := w.handlers[eventName]; !ok {
 		return fmt.Errorf("webhook: '%s' is not a valid webhook event", eventName)
@@ -168,6 +171,7 @@ func (w *webhooks) SetHandler(eventName string, callback WebhookCallback) error 
 	return nil
 }
 
+// RemoveHandler removes the handler for the specified event.
 func (w *webhooks) RemoveHandler(eventName string) error {
 	if _, ok := w.handlers[eventName]; !ok {
 		return fmt.Errorf("webhook: '%s' is not a valid webhook event", eventName)
@@ -176,6 +180,7 @@ func (w *webhooks) RemoveHandler(eventName string) error {
 	return nil
 }
 
+// IsHandlerPresent checks if there is a handler for the specified event.
 func (w *webhooks) IsHandlerPresent(eventName string) bool {
 	if _, ok := w.handlers[eventName]; !ok {
 		return false
@@ -232,6 +237,7 @@ func (w *webhooks) isSignatureValid(payload, sign string) bool {
 	return hmac.Equal(bExpectedSign, []byte(sign))
 }
 
+// Handle start a callback for the received header.
 func (w *webhooks) Handle(receivedHeaders interface{}) error {
 	encodedMessage, err := getEncodedHeader(receivedHeaders)
 	if err != nil {

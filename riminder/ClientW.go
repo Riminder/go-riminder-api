@@ -7,6 +7,7 @@ import (
 	"gopkg.in/resty.v1"
 )
 
+// clientw is a wraper for resty library.
 type clientw struct {
 	client      *resty.Client
 	baseHeaders map[string]string
@@ -14,6 +15,7 @@ type clientw struct {
 	apiKey      string
 }
 
+// newClientw create a clientw
 func newClientw(apiKey, baseURL string) *clientw {
 	c := new(clientw)
 	c.apiKey = apiKey
@@ -32,6 +34,7 @@ func (c *clientw) SetBaseURL(url string) {
 	c.client.SetHostURL(c.baseURL)
 }
 
+// responseProcesser transform a response to a response container.
 func responseProcesser(resp *resty.Response, respContainer interface{}) error {
 	if !resp.IsSuccess() {
 		return errors.NewResponseError(resp.StatusCode(), resp.Status(), resp.String())

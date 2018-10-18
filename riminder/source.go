@@ -2,6 +2,7 @@ package riminder
 
 import "github.com/Xalrandion/go-riminder-api/riminder/response"
 
+// source class contains methods to interact with the sources on riminder's api.
 type source struct {
 	client *clientw
 }
@@ -13,6 +14,7 @@ func newSource(riminder *Riminder) *source {
 	return s
 }
 
+// List gets the list of your sources.
 func (s *source) List() ([]response.SourceListElem, error) {
 
 	resp := response.SourceListContainer{}
@@ -23,6 +25,7 @@ func (s *source) List() ([]response.SourceListElem, error) {
 	return resp.Data, nil
 }
 
+// Get gets a specific source.
 func (s *source) Get(options map[string]interface{}) (response.SourceGetElem, error) {
 
 	query := map[string]string{

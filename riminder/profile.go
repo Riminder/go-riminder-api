@@ -7,6 +7,7 @@ import (
 	"github.com/Xalrandion/go-riminder-api/riminder/response"
 )
 
+// profile class contains methods to interact with the profiles on riminder's api.
 type profile struct {
 	client    *clientw
 	Documents *profileDocument
@@ -39,6 +40,7 @@ func addTrainingMetadataStringIfNotEmpty(params *map[string]string, options map[
 	}
 }
 
+// Add add a new profile to a source.
 func (p *profile) Add(options map[string]interface{}) (response.ProfileAddElem, error) {
 	filepath := options["filepath"].(string)
 
@@ -57,6 +59,7 @@ func (p *profile) Add(options map[string]interface{}) (response.ProfileAddElem, 
 	return resp.Data, nil
 }
 
+// List get a list of profiles.
 func (p *profile) List(options map[string]interface{}) (response.ProfileListElem, error) {
 	sourceIDs, err := json.Marshal(options["source_id"])
 	if err != nil {
@@ -86,6 +89,7 @@ func (p *profile) List(options map[string]interface{}) (response.ProfileListElem
 	return resp.Data, nil
 }
 
+// Get a specific profile.
 func (p *profile) Get(options map[string]interface{}) (response.ProfileGetElem, error) {
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
@@ -112,6 +116,7 @@ func newprofileDocument(riminder *Riminder) *profileDocument {
 	return s
 }
 
+// List get the list of attachement for a profile.
 func (p *profileDocument) List(options map[string]interface{}) ([]response.ProfileDocumentsListElem, error) {
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
@@ -138,6 +143,7 @@ func newprofileParsing(riminder *Riminder) *profileParsing {
 	return s
 }
 
+// Get gets parsing infos for a specific profile.
 func (p *profileParsing) Get(options map[string]interface{}) (response.ProfileParsingGetElem, error) {
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
@@ -164,6 +170,7 @@ func newprofileScoring(riminder *Riminder) *profileScoring {
 	return s
 }
 
+// Get gets scoring infos for a specific profile.
 func (p *profileScoring) List(options map[string]interface{}) ([]response.ProfileScoringListElem, error) {
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
@@ -190,6 +197,7 @@ func newprofileStage(riminder *Riminder) *profileStage {
 	return s
 }
 
+// Set sets the stage for a specific profile and filter.
 func (p *profileStage) Set(options map[string]interface{}) (response.ProfileStageSetElem, error) {
 
 	resp := response.ProfileStageSetContainer{}
@@ -211,6 +219,7 @@ func newprofileRating(riminder *Riminder) *profileRating {
 	return s
 }
 
+// Set sets the rating for a specific profile and filter.
 func (p *profileRating) Set(options map[string]interface{}) (response.ProfileRatingSetElem, error) {
 
 	resp := response.ProfileRatingSetContainer{}
@@ -232,6 +241,7 @@ func newprofileStructData(riminder *Riminder) *profileStructData {
 	return s
 }
 
+// Check checks if the given parsed profile is valid.
 func (s *profileStructData) Check(options map[string]interface{}) (response.ProfileJSONCheckElem, error) {
 	resp := response.ProfileJSONCheckContainer{}
 	err := s.client.Post("profile/json/check", options, &resp)
@@ -241,6 +251,7 @@ func (s *profileStructData) Check(options map[string]interface{}) (response.Prof
 	return resp.Data, nil
 }
 
+// Add adds a new parsed profile.
 func (s *profileStructData) Add(options map[string]interface{}) (response.ProfileJSONAddElem, error) {
 	resp := response.ProfileJSONAddContainer{}
 
