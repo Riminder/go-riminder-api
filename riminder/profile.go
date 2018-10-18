@@ -60,7 +60,7 @@ func (p *profile) Add(options map[string]interface{}) (response.ProfileAddElem, 
 func (p *profile) List(options map[string]interface{}) (response.ProfileListElem, error) {
 	sourceIDs, err := json.Marshal(options["source_id"])
 	if err != nil {
-		return response.ProfileListElem{}, fmt.Errorf("profile.List:Cannot parse source ids (should be a list of string): %v.", err)
+		return response.ProfileListElem{}, fmt.Errorf("profile.List:Cannot parse source ids (should be a list of string): %v", err)
 	}
 
 	query := map[string]string{
@@ -190,12 +190,12 @@ func newprofileStage(riminder *Riminder) *profileStage {
 	return s
 }
 
-func (p *profileStage) Set(options map[string]interface{}) (response.ProfileStageElem, error) {
+func (p *profileStage) Set(options map[string]interface{}) (response.ProfileStageSetElem, error) {
 
-	resp := response.ProfileStageContainer{}
+	resp := response.ProfileStageSetContainer{}
 	err := p.client.Patch("profile/stage", options, &resp)
 	if err != nil {
-		return response.ProfileStageElem{}, err
+		return response.ProfileStageSetElem{}, err
 	}
 	return resp.Data, nil
 }
@@ -211,12 +211,12 @@ func newprofileRating(riminder *Riminder) *profileRating {
 	return s
 }
 
-func (p *profileRating) Set(options map[string]interface{}) (response.ProfileRatingElem, error) {
+func (p *profileRating) Set(options map[string]interface{}) (response.ProfileRatingSetElem, error) {
 
-	resp := response.ProfileRatingContainer{}
+	resp := response.ProfileRatingSetContainer{}
 	err := p.client.Patch("profile/rating", options, &resp)
 	if err != nil {
-		return response.ProfileRatingElem{}, err
+		return response.ProfileRatingSetElem{}, err
 	}
 	return resp.Data, nil
 }

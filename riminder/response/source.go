@@ -1,11 +1,13 @@
 package response
 
+// SourceListContainer contains the response representation for source.List method.
 type SourceListContainer struct {
-	*ResponseContainer
+	*Container
 
 	Data []SourceListElem
 }
 
+// SourceListElem the data field response representation for source.List method.
 type SourceListElem struct {
 	SourceID     string   `json:"source_id"`
 	Name         string   `json:"name"`
@@ -15,12 +17,14 @@ type SourceListElem struct {
 	DateCreation DateTime `json:"date_creation"`
 }
 
+// SourceGetContainer contains the response representation for source.Get method.
 type SourceGetContainer struct {
-	*ResponseContainer
+	*Container
 
 	Data SourceGetElem
 }
 
+// SourceGetElem the data field response representation for source.Get method.
 type SourceGetElem struct {
 	SourceID     string   `json:"source_id"`
 	Name         string   `json:"name"`

@@ -1,11 +1,13 @@
 package response
 
+// FilterListContainer contains the response representation for filter.list method.
 type FilterListContainer struct {
-	*ResponseContainer
+	*Container
 
 	Data []FilterListElem
 }
 
+// FilterListElem contains the data field response representation for filter.list method.
 type FilterListElem struct {
 	FilterID        string   `json:"filter_id"`
 	FilterReference string   `json:"filter_reference"`
@@ -14,16 +16,19 @@ type FilterListElem struct {
 	DateCreation    DateTime `json:"date_creation"`
 }
 
+// FilterGetContainer contains the response representation for filter.get method.
 type FilterGetContainer struct {
-	*ResponseContainer
+	*Container
 
 	Data FilterGetElem
 }
 
+// FilterTemplate a specific field in responses.
 type FilterTemplate struct {
 	Name string `json:"name"`
 }
 
+// FilterGetElem contains the data field response representation for filter.get method.
 type FilterGetElem struct {
 	FilterID        string         `json:"filter_id"`
 	FilterReference string         `json:"filter_reference"`

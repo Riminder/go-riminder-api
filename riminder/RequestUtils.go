@@ -5,34 +5,36 @@ import (
 	"strconv"
 )
 
-func AddIfNotEmptyStrMap(tofill *map[string]string, input map[string]interface{}, key_to_find string) {
+// AddIfNotEmptyStrMap add the value un the input map with the key (keyTofind) if it exist and is not null to tofill map(string version).
+func AddIfNotEmptyStrMap(tofill *map[string]string, input map[string]interface{}, keyToFind string) {
 
-	if value, ok := input[key_to_find]; ok {
+	if value, ok := input[keyToFind]; ok {
 		if value == nil {
 			return
 		}
 		switch val := value.(type) {
 		case int:
-			(*tofill)[key_to_find] = strconv.Itoa(val)
+			(*tofill)[keyToFind] = strconv.Itoa(val)
 		case string:
-			(*tofill)[key_to_find] = val
+			(*tofill)[keyToFind] = val
 		case fmt.Stringer:
-			(*tofill)[key_to_find] = val.String()
+			(*tofill)[keyToFind] = val.String()
 		default:
-			panic(fmt.Sprintf("%s should be stringable.", key_to_find))
+			panic(fmt.Sprintf("%s should be stringable.", keyToFind))
 		}
 
 	}
 
 }
 
-func AddIfNotEmptyMap(tofill *map[string]interface{}, input map[string]interface{}, key_to_find string) {
+// AddIfNotEmptyMap add the value un the input map with the key (keyTofind) if it exist and is not null to tofill map.
+func AddIfNotEmptyMap(tofill *map[string]interface{}, input map[string]interface{}, keyToFind string) {
 
-	if value, ok := input[key_to_find]; ok {
+	if value, ok := input[keyToFind]; ok {
 		if value == nil {
 			return
 		}
-		(*tofill)[key_to_find] = value
+		(*tofill)[keyToFind] = value
 	}
 
 }
