@@ -15,9 +15,9 @@ func newfilter(riminder *Riminder) *filter {
 }
 
 // List returns the list of filters your team can access.
-func (s *filter) List() ([]response.FilterListElem, error) {
+func (s *filter) List() ([]riminderResponse.FilterListElem, error) {
 
-	resp := response.FilterListContainer{}
+	resp := riminderResponse.FilterListContainer{}
 	err := s.client.Get("filters", map[string]string{}, &resp)
 	if err != nil {
 		return nil, err
@@ -26,16 +26,16 @@ func (s *filter) List() ([]response.FilterListElem, error) {
 }
 
 // Get returns a specific filter given a filter_id or filter_reference.
-func (s *filter) Get(options map[string]interface{}) (response.FilterGetElem, error) {
+func (s *filter) Get(options map[string]interface{}) (riminderResponse.FilterGetElem, error) {
 
 	query := map[string]string{}
 	AddIfNotEmptyStrMap(&query, options, "filter_id")
 	AddIfNotEmptyStrMap(&query, options, "filter_reference")
 
-	resp := response.FilterGetContainer{}
+	resp := riminderResponse.FilterGetContainer{}
 	err := s.client.Get("filter", query, &resp)
 	if err != nil {
-		return response.FilterGetElem{}, err
+		return riminderResponse.FilterGetElem{}, err
 	}
 	return resp.Data, nil
 }

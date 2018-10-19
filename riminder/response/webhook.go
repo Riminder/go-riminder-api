@@ -1,4 +1,4 @@
-package response
+package riminderResponse
 
 // WebhookCheckContainer contains the response representation for webhook.Check method.
 type WebhookCheckContainer struct {

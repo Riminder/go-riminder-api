@@ -1,4 +1,4 @@
-package response
+package riminderResponse
 
 // FilterListContainer contains the response representation for filter.list method.
 type FilterListContainer struct {
@@ -42,7 +42,7 @@ type FilterGetElem struct {
 		CountLater int `json:"count_later"`
 		CountNo    int `json:"count_no"`
 	} `json:"stages"`
-	ScoreTreshold string   `json:"score_threshold"`
+	ScoreTreshold int      `json:"score_threshold"`
 	Archive       bool     `json:"archive"`
 	DateCreation  DateTime `json:"date_creation"`
 }

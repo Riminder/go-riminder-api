@@ -1,4 +1,4 @@
-package response
+package riminderResponse
 
 // DateTime time representation as riminder response give.
 type DateTime struct {

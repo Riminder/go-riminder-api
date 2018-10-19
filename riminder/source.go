@@ -15,9 +15,9 @@ func newSource(riminder *Riminder) *source {
 }
 
 // List gets the list of your sources.
-func (s *source) List() ([]response.SourceListElem, error) {
+func (s *source) List() ([]riminderResponse.SourceListElem, error) {
 
-	resp := response.SourceListContainer{}
+	resp := riminderResponse.SourceListContainer{}
 	err := s.client.Get("sources", map[string]string{}, &resp)
 	if err != nil {
 		return nil, err
@@ -26,16 +26,16 @@ func (s *source) List() ([]response.SourceListElem, error) {
 }
 
 // Get gets a specific source.
-func (s *source) Get(options map[string]interface{}) (response.SourceGetElem, error) {
+func (s *source) Get(options map[string]interface{}) (riminderResponse.SourceGetElem, error) {
 
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
 	}
 
-	resp := response.SourceGetContainer{}
+	resp := riminderResponse.SourceGetContainer{}
 	err := s.client.Get("source", query, &resp)
 	if err != nil {
-		return response.SourceGetElem{}, err
+		return riminderResponse.SourceGetElem{}, err
 	}
 	return resp.Data, nil
 }

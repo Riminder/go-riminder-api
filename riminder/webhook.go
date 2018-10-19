@@ -78,72 +78,72 @@ func newWebhooks(riminder *Riminder) *webhooks {
 	s.webhookKey = riminder.webhookKey
 	s.handlers = map[string]*webhookHandlerContainer{
 		EventProfileParseSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageProfileParse{}
+			r := riminderResponse.WebhookMessageProfileParse{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventProfileParseError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageProfileParse{}
+			r := riminderResponse.WebhookMessageProfileParse{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventProfileScoreSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageProfileScore{}
+			r := riminderResponse.WebhookMessageProfileScore{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventProfileScoreError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageProfileScore{}
+			r := riminderResponse.WebhookMessageProfileScore{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterTrainSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterTrain{}
+			r := riminderResponse.WebhookMessageFilterTrain{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterTrainError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterTrain{}
+			r := riminderResponse.WebhookMessageFilterTrain{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterTrainStart: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterTrain{}
+			r := riminderResponse.WebhookMessageFilterTrain{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterScoreSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterScore{}
+			r := riminderResponse.WebhookMessageFilterScore{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterScoreError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterScore{}
+			r := riminderResponse.WebhookMessageFilterScore{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		EventFilterScoreStart: {factory: func(s string) interface{} {
-			r := response.WebhookMessageFilterScore{}
+			r := riminderResponse.WebhookMessageFilterScore{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		ActionStageSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageActionStage{}
+			r := riminderResponse.WebhookMessageActionStage{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		ActionStageError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageActionStage{}
+			r := riminderResponse.WebhookMessageActionStage{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		ActionRatingSuccess: {factory: func(s string) interface{} {
-			r := response.WebhookMessageActionRating{}
+			r := riminderResponse.WebhookMessageActionRating{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
 		ActionRatingError: {factory: func(s string) interface{} {
-			r := response.WebhookMessageActionRating{}
+			r := riminderResponse.WebhookMessageActionRating{}
 			json.Unmarshal([]byte(s), &r)
 			return r
 		}, callback: nil},
@@ -151,13 +151,17 @@ func newWebhooks(riminder *Riminder) *webhooks {
 	return s
 }
 
-// Check checks if the webhook integration is enabled.
-func (w *webhooks) Check() (response.WebhookCheckElem, error) {
+func (w *webhooks) setWebhookKey(key string) {
+	w.webhookKey = key
+}
 
-	resp := response.WebhookCheckContainer{}
+// Check checks if the webhook integration is enabled.
+func (w *webhooks) Check() (riminderResponse.WebhookCheckElem, error) {
+
+	resp := riminderResponse.WebhookCheckContainer{}
 	err := w.client.Post("webhook/check", map[string]interface{}{}, &resp)
 	if err != nil {
-		return response.WebhookCheckElem{}, err
+		return riminderResponse.WebhookCheckElem{}, err
 	}
 	return resp.Data, nil
 }
@@ -176,7 +180,7 @@ func (w *webhooks) RemoveHandler(eventName string) error {
 	if _, ok := w.handlers[eventName]; !ok {
 		return fmt.Errorf("webhook: '%s' is not a valid webhook event", eventName)
 	}
-	w.handlers[eventName] = nil
+	w.handlers[eventName].callback = nil
 	return nil
 }
 
@@ -185,7 +189,7 @@ func (w *webhooks) IsHandlerPresent(eventName string) bool {
 	if _, ok := w.handlers[eventName]; !ok {
 		return false
 	}
-	return w.handlers[eventName] != nil
+	return w.handlers[eventName].callback != nil
 }
 
 func getEncodedHeader(receivedHeader interface{}) (string, error) {
@@ -193,9 +197,17 @@ func getEncodedHeader(receivedHeader interface{}) (string, error) {
 	response := ""
 	switch rh := receivedHeader.(type) {
 	case map[string]string:
-		response = rh[webhookHeaderKey]
+		r, ok := rh[webhookHeaderKey]
+		if !ok {
+			return "", fmt.Errorf("%s key should be part of the header", webhookHeaderKey)
+		}
+		response = r
 	case map[string]interface{}:
-		response = rh[webhookHeaderKey].(string)
+		r, ok := rh[webhookHeaderKey].(string)
+		if !ok {
+			return "", fmt.Errorf("%s key should be part of the header", webhookHeaderKey)
+		}
+		response = r
 	case string:
 		response = rh
 	case fmt.Stringer:
@@ -211,10 +223,9 @@ func customStrStr(s, toReplace, by string) string {
 	for _, c := range s {
 		tmpc := byte(c)
 		trIDX := strings.Index(toReplace, string(c))
-		if trIDX == -1 || trIDX >= len(by) {
-			continue
+		if trIDX != -1 && trIDX < len(by) {
+			tmpc = by[trIDX]
 		}
-		tmpc = by[trIDX]
 		res += string(tmpc)
 	}
 	return res
@@ -253,13 +264,16 @@ func (w *webhooks) Handle(receivedHeaders interface{}) error {
 		return fmt.Errorf("webhook.handle: invalid signature")
 	}
 
-	tmpMessage := response.WebhookMessageContainer{}
+	tmpMessage := riminderResponse.WebhookMessageContainer{}
 	err = json.Unmarshal([]byte(jsonPayload), &tmpMessage)
 	if err != nil {
 		return fmt.Errorf("webhook.handle:cannot parse webhook message: %v", err)
 	}
 	if _, ok := w.handlers[tmpMessage.Type]; !ok {
 		return fmt.Errorf("webhook.handle:'%s' unknown message type", tmpMessage.Type)
+	}
+	if w.handlers[tmpMessage.Type].callback == nil {
+		return nil
 	}
 	w.handlers[tmpMessage.Type].callback(tmpMessage.Type, w.handlers[tmpMessage.Type].factory(jsonPayload))
 	return nil

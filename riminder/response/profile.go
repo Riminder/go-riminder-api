@@ -1,4 +1,4 @@
-package response
+package riminderResponse
 
 // ProfileListContainer contains the response representation for profile.list method.
 type ProfileListContainer struct {

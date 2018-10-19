@@ -40,6 +40,7 @@ func (r *Riminder) SetBaseURL(url string) {
 // SetWebhookKey set a webhookKey.
 func (r *Riminder) SetWebhookKey(wkey string) {
 	r.webhookKey = wkey
+	r.webhooks.setWebhookKey(r.webhookKey)
 }
 
 // Source permits to access source related calls.

@@ -1,4 +1,4 @@
-package response
+package riminderResponse
 
 // SourceListContainer contains the response representation for source.List method.
 type SourceListContainer struct {
