@@ -3,32 +3,61 @@ package riminder
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
+	"time"
 
 	"github.com/Xalrandion/go-riminder-api/riminder/response"
 )
 
+// defaultDateStart default timestamp for proofile.List
+const defaultDateStart = "1347209668"
+
 // profile class contains methods to interact with the profiles on riminder's api.
 type profile struct {
-	client    *clientw
-	Documents *profileDocument
-	Parsing   *profileParsing
-	Scoring   *profileScoring
-	Stage     *profileStage
-	Rating    *profileRating
-	JSON      *profileStructData
+	client     *clientw
+	documents  *profileDocument
+	parsing    *profileParsing
+	scoring    *profileScoring
+	stage      *profileStage
+	rating     *profileRating
+	structured *profileStructData
 }
 
 func newprofile(riminder *Riminder) *profile {
 	s := new(profile)
 
 	s.client = riminder.clientw
-	s.Documents = newprofileDocument(riminder)
-	s.Parsing = newprofileParsing(riminder)
-	s.Scoring = newprofileScoring(riminder)
-	s.Stage = newprofileStage(riminder)
-	s.Rating = newprofileRating(riminder)
-	s.JSON = newprofileStructData(riminder)
+	s.documents = newprofileDocument(riminder)
+	s.parsing = newprofileParsing(riminder)
+	s.scoring = newprofileScoring(riminder)
+	s.stage = newprofileStage(riminder)
+	s.rating = newprofileRating(riminder)
+	s.structured = newprofileStructData(riminder)
 	return s
+}
+
+func (p *profile) Document() *profileDocument {
+	return p.documents
+}
+
+func (p *profile) Parsing() *profileParsing {
+	return p.parsing
+}
+
+func (p *profile) Scoring() *profileScoring {
+	return p.scoring
+}
+
+func (p *profile) Stage() *profileStage {
+	return p.stage
+}
+
+func (p *profile) Rating() *profileRating {
+	return p.rating
+}
+
+func (p *profile) JSON() *profileStructData {
+	return p.structured
 }
 
 func addTrainingMetadataStringIfNotEmpty(params *map[string]string, options map[string]interface{}) {
@@ -61,13 +90,17 @@ func (p *profile) Add(options map[string]interface{}) (riminderResponse.ProfileA
 
 // List get a list of profiles.
 func (p *profile) List(options map[string]interface{}) (riminderResponse.ProfileListElem, error) {
-	sourceIDs, err := json.Marshal(options["source_id"])
+	sourceIDs, err := json.Marshal(options["source_ids"])
 	if err != nil {
 		return riminderResponse.ProfileListElem{}, fmt.Errorf("profile.List:Cannot parse source ids (should be a list of string): %v", err)
 	}
 
 	query := map[string]string{
 		"source_ids": string(sourceIDs),
+		"sort_by":    "ranking",
+		"page":       "1",
+		"date_end":   strconv.Itoa(int(time.Now().Unix())),
+		"date_start": defaultDateStart,
 	}
 	AddIfNotEmptyStrMap(&query, options, "seniority")
 	AddIfNotEmptyStrMap(&query, options, "filter_id")

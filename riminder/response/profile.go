@@ -43,7 +43,7 @@ type ProfileAddElem struct {
 	ProfileReference string   `json:"profile_reference"`
 	FileID           string   `json:"file_id"`
 	FileName         string   `json:"file_name"`
-	FileSize         string   `json:"file_size"`
+	FileSize         int      `json:"file_size"`
 	Extension        string   `json:"extension"`
 	DateReception    DateTime `json:"date_reception"`
 }
@@ -69,7 +69,7 @@ type ProfileData struct {
 		Location        string            `json:"location"`
 		LocationDetails ProfileLocDetails `json:"location_details"`
 		Description     string            `json:"description"`
-	} `json:"experience"`
+	} `json:"experiences"`
 	Educations []struct {
 		Start           string            `json:"start"`
 		End             string            `json:"end"`
@@ -161,7 +161,7 @@ type ProfileDocumentsListElem struct {
 	Type             string `json:"type"`
 	FileName         string `json:"file_name"`
 	OriginalFileName string `json:"original_file_name"`
-	FileSize         string `json:"file_size"`
+	FileSize         int    `json:"file_size"`
 	Extension        string `json:"extension"`
 	URL              string `json:"url"`
 	Timestamp        int    `json:"timestamp"`
@@ -182,20 +182,20 @@ type ProfileParsingGetElem struct {
 	Languages   []string `json:"languages"`
 	Seniority   string   `json:"seniority"`
 	Experiences []struct {
-		Title       string   `json:"title"`
-		Description string   `json:"description"`
-		Company     string   `json:"company"`
-		Location    string   `json:"location"`
-		StartDate   DateTime `json:"start_date"`
-		EndDate     DateTime `json:"end_date"`
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		Company     string `json:"company"`
+		Location    string `json:"location"`
+		StartDate   string `json:"start_date"`
+		EndDate     string `json:"end_date"`
 	} `json:"experiences"`
 	Educations []struct {
-		Title       string   `json:"title"`
-		Description string   `json:"description"`
-		School      string   `json:"school"`
-		Location    string   `json:"location"`
-		StartDate   DateTime `json:"start_date"`
-		EndDate     DateTime `json:"end_date"`
+		Title       string `json:"title"`
+		Description string `json:"description"`
+		School      string `json:"school"`
+		Location    string `json:"location"`
+		StartDate   string `json:"start_date"`
+		EndDate     string `json:"end_date"`
 	} `json:"educations"`
 	DateReception DateTime `json:"date_reception"`
 	DateCreation  DateTime `json:"date_creation"`
