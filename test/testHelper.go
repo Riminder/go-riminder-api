@@ -31,7 +31,7 @@ type TestHelper struct {
 func GetTestHelper() *TestHelper {
 	once.Do(func() {
 		instance = &TestHelper{
-			APIKey:           "ask_874138568ebde822652c3ddf2218333a",
+			APIKey:           "",
 			WebhookKey:       "quoi",
 			ProfileID:        "be50e7e57f4ad045ac8c406e7b665d409be9e363",
 			ProfileReference: "5279",
