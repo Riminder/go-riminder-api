@@ -3,7 +3,7 @@ package rimindertest
 import (
 	"testing"
 
-	"github.com/Xalrandion/go-riminder-api/riminder"
+	"github.com/Xalrandion/go-riminder-api"
 )
 
 func TestSourceListNoError(t *testing.T) {

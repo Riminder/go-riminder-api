@@ -7,9 +7,8 @@ import (
 	"encoding/json"
 	"sync"
 
-	"github.com/Xalrandion/go-riminder-api/riminder/response"
-
-	"github.com/Xalrandion/go-riminder-api/riminder"
+	riminder "github.com/Xalrandion/go-riminder-api"
+	"github.com/Xalrandion/go-riminder-api/response"
 )
 
 var instance *TestHelper

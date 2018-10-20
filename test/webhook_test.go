@@ -3,9 +3,9 @@ package rimindertest
 import (
 	"testing"
 
-	"github.com/Xalrandion/go-riminder-api/riminder/response"
+	"github.com/Xalrandion/go-riminder-api/response"
 
-	"github.com/Xalrandion/go-riminder-api/riminder"
+	"github.com/Xalrandion/go-riminder-api"
 )
 
 func TestWebhooksCheckNoErrorFID(t *testing.T) {

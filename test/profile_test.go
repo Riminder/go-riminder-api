@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/Xalrandion/go-riminder-api/riminder"
+	"github.com/Xalrandion/go-riminder-api"
 )
 
 func TestProfileAddNoErrorMaxArgs(t *testing.T) {
