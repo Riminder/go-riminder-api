@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/Xalrandion/go-riminder-api/riminder/response"
+	"github.com/Xalrandion/go-riminder-api/response"
 )
 
 // EventProfileParseSuccess is a string constant for corresponding event.

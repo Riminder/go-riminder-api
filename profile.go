@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Xalrandion/go-riminder-api/riminder/response"
+	"github.com/Xalrandion/go-riminder-api/response"
 )
 
 // defaultDateStart default timestamp for proofile.List

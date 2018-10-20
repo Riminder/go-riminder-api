@@ -1,6 +1,6 @@
 package riminder
 
-import "github.com/Xalrandion/go-riminder-api/riminder/response"
+import "github.com/Xalrandion/go-riminder-api/response"
 
 // source class contains methods to interact with the sources on riminder's api.
 type source struct {

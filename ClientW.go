@@ -3,7 +3,7 @@ package riminder
 import (
 	"encoding/json"
 
-	"github.com/Xalrandion/go-riminder-api/riminder/errors"
+	"github.com/Xalrandion/go-riminder-api/errors"
 	"gopkg.in/resty.v1"
 )
 

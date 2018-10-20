@@ -1,6 +1,6 @@
 package riminder
 
-import "github.com/Xalrandion/go-riminder-api/riminder/response"
+import "github.com/Xalrandion/go-riminder-api/response"
 
 // filter class contains methods to interact with the filters on riminder's api.
 type filter struct {
