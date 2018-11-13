@@ -8,7 +8,7 @@ A go api client for Riminder api.
 ## Instalation with go gems
 
 ```shell
-go get -u github.com/Xalrandion/go-riminder-api
+go get -u github.com/Riminder/go-riminder-api
 ```
 
 ## Authentification
