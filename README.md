@@ -22,7 +22,7 @@ Then create a new `Riminder` object with this key:
     import "github.com/Xalrandion/go-riminder-api/riminder"
 
     // Authentification to api
-    client := riminder.New("your shinny key")
+    client := riminder.New("your shiny key")
 
     // Finally you can use the api!!
 ```
@@ -35,7 +35,7 @@ Then create a new `Riminder` object with this key:
         "fmt")
 
 
-    client := riminder.New("your shinny key")
+    client := riminder.New("your shiny key")
 
     // Let's retrieve a profile.
     args := map[string]interface{}{
@@ -161,6 +161,19 @@ More details about filters are available [here](https://developers.Riminder.net/
 
 ```go
  resp, err := client.Profile().Scoring().List(map[string]interface{}{"source_id": source_id, "profile_reference": profile_reference})
+```
+
+* Get revealing result of a specific profile.
+  * Arguments: Hash containing
+    * `"source_id"` id of the source containing the profile (*required*)
+    * `"profile_id"` id of the profile (*required*)
+    * `"profile_reference"` reference of the profile (*required*)
+    * `"filter_id"` id of the filter (*required*)
+    * `"filter_reference"` reference of the filter (*required*)
+  * Returns: Array of Hash containing the profile revealing (interpretability), and an error if one occurs (nil if no error).
+
+```go
+ resp, err := client.Profile().Revealing().get(map[string]interface{}{"source_id": source_id, "profile_reference": profile_reference, "filter_reference": filter_reference})
 ```
 
 * Set stage of a specific profile for a spcified filter.

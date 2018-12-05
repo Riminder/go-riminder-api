@@ -220,6 +220,71 @@ type ProfileScoringListElem struct {
 	PrivateURL      string         `json:"private_url"`
 }
 
+// ProfileRevealingGetContainer contains the response representation for profile.revealing.Get method.
+type ProfileRevealingGetContainer struct {
+	*Container
+
+	Data ProfileRevealingGetElem `json:"data"`
+}
+
+// ProfileRevealingGetElem the data field response representation for profile.revealing.Get method.
+type ProfileRevealingGetElem struct {
+	Profile []struct {
+		Experiences []struct {
+			StartDate DateTime `json:"start_date"`
+			EndDate   DateTime `json:"end_date"`
+			Score     string   `json:"score"`
+			Title []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"title"`
+			Description []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"description"`
+			Company []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"company"`
+		} `json:"experiences"`
+		Educations []struct {
+			StartDate DateTime `json:"start_date"`
+			EndDate   DateTime `json:"end_date"`
+			Score     string   `json:"score"`
+			Title []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"title"`
+			Description []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"description"`
+			School []struct {
+				Word       string `json:"word"`
+				Score 	   string `json:"score"`
+			} `json:"school"`
+		} `json:"educations"`
+	} `json:"profile"`
+	Skills []struct {
+		HardSkills []struct {
+			Word       string `json:"word"`
+			Score 	   string `json:"score"`
+		} `json:"hardSkills"`
+		SpecialSkills []struct {
+			Word       string `json:"word"`
+			Score 	   string `json:"score"`
+		} `json:"specialSkills"`
+		TransversalSkills []struct {
+			Word       string `json:"word"`
+			Score 	   string `json:"score"`
+		} `json:"transversalSkills"`
+		SoftSkills []struct {
+			Word       string `json:"word"`
+			Score 	   string `json:"score"`
+		} `json:"softSkills"`
+	} `json:"skills"`
+}
+
 // ProfileStageSetContainer contains the response representation for profile.stage.Set method.
 type ProfileStageSetContainer struct {
 	*Container

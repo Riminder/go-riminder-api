@@ -18,6 +18,7 @@ type profile struct {
 	documents  *profileDocument
 	parsing    *profileParsing
 	scoring    *profileScoring
+	revealing  *profileRevealing
 	stage      *profileStage
 	rating     *profileRating
 	structured *profileStructData
@@ -30,6 +31,7 @@ func newprofile(riminder *Riminder) *profile {
 	s.documents = newprofileDocument(riminder)
 	s.parsing = newprofileParsing(riminder)
 	s.scoring = newprofileScoring(riminder)
+	s.revealing = newprofileRevealing(riminder)
 	s.stage = newprofileStage(riminder)
 	s.rating = newprofileRating(riminder)
 	s.structured = newprofileStructData(riminder)
@@ -46,6 +48,10 @@ func (p *profile) Parsing() *profileParsing {
 
 func (p *profile) Scoring() *profileScoring {
 	return p.scoring
+}
+
+func (p *profile) Revealing() *profileRevealing {
+	return p.revealing
 }
 
 func (p *profile) Stage() *profileStage {
@@ -203,7 +209,7 @@ func newprofileScoring(riminder *Riminder) *profileScoring {
 	return s
 }
 
-// Get gets scoring infos for a specific profile.
+// Get scoring infos for a specific profile.
 func (p *profileScoring) List(options map[string]interface{}) ([]riminderResponse.ProfileScoringListElem, error) {
 	query := map[string]string{
 		"source_id": options["source_id"].(string),
@@ -213,6 +219,35 @@ func (p *profileScoring) List(options map[string]interface{}) ([]riminderRespons
 
 	resp := riminderResponse.ProfileScoringListContainer{}
 	err := p.client.Get("profile/scoring", query, &resp)
+	if err != nil {
+		return nil, err
+	}
+	return resp.Data, nil
+}
+
+type profileRevealing struct {
+	client *clientw
+}
+
+func newprofileRevealing(riminder *Riminder) *profileRevealing {
+	s := new(profileRevealing)
+
+	s.client = riminder.clientw
+	return s
+}
+
+// Get gets revealing infos for a specific profile.
+func (p *profileRevealing) Get(options map[string]interface{}) ([]riminderResponse.ProfileRevealingGetElem, error) {
+	query := map[string]string{
+		"source_id": options["source_id"].(string),
+	}
+	AddIfNotEmptyStrMap(&query, options, "profile_id")
+	AddIfNotEmptyStrMap(&query, options, "profile_reference")
+	AddIfNotEmptyStrMap(&query, options, "filter_id")
+	AddIfNotEmptyStrMap(&query, options, "filter_reference")
+
+	resp := riminderResponse.ProfileRevealingGetContainer{}
+	err := p.client.Get("profile/revealing", query, &resp)
 	if err != nil {
 		return nil, err
 	}
